@@ -18,7 +18,7 @@
     
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script> -->
    
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
@@ -31,15 +31,10 @@
     <!-- Header for page -->
     <div class="jumbotron">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" id="header">
             <h1><img src="assets/images/shinkansen.png" id="image"> Train Scheduler <img src="assets/images/shinkansen.png" id="image"></h1><hr>
             <h5>"Trains always arrive at your station. The question is which one to take." 
             <br>- Mehmet Murat Ildan</h5>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="text-center">The most up-to-date train information and scheduler for the GCTA.</h3>
         </div>
     </div>
     </div>
@@ -72,7 +67,7 @@
                 </tbody>
             </table>
         </div>
-        </div>
+    </div>
       
         <!-- Add a new train -->
         <div class="panel panel-primary">
@@ -103,7 +98,7 @@
                     <label>Frequency (minutes)</label>
                     <input class="form-control" id="frequency-input" type="text">
                 </div>
-                    <button class="btn" id="add-train-btn" type="submit">Submit</button>
+                <button type="button" id="add-train-btn" class="btn btn-primary"><span class="glyphicon glyphicon-pushpin"></span> Submit</button>
             </form>
       
             </div>
@@ -116,7 +111,7 @@
     </div>
       
         <!-- Link to the external JavaScript -->
-        <script type="text/javascript" src="assets/app.js"></script>
+        <script type="text/javascript" src="assets/javascript/app.js"></script>
       
 </body>
 </html>
