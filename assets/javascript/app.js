@@ -1,20 +1,5 @@
 $(document).ready(function () {
 
-// Global Variables
-var trainName = "";
-var trainDestination = "";
-var trainTime = "";
-var trainFrequency = "";
-var nextArrival = "";
-var minutesAway = "";
-
-// Global variables for jQuery functions
-var inputTrain = $("#train-name");
-var inputTrainDestination = $("#train-destination");
-var inputTrainTime = $("#train-time").mask("00:00");
-var inputTrainFreq = $("#time-freq").mask("00");
-
-
 // Initialize Firebase
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -28,120 +13,77 @@ var firebaseConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
-// Assign the reference to the database to a variable named 'database'
-var database = firebase.database();
-
-database.ref().on("child_added", function(snapshot) {
-
-    //  local variables to store the data if data was already present from firebase
-    var trainDiff = 0;
-    var trainRemainder = 0;
-    var minutesUntilArrival = "";
-    var nextTrainTime = "";
-    var frequency = snapshot.val().frequency;
-
-    // calculate the difference in time from 'now' and the first train using UNIX timestamp, store in var and convert to minutes
-    trainDiff = moment().diff(moment.unix(snapshot.val().time), "minutes");
-
-    // get the remainder of time by using modulus operator with the frequency & time difference, store in var
-    trainRemainder = trainDiff % frequency;
-
-    // ubtract the remainder from the frequency and store store in var to get how long next train will take to arrive
-    minutesUntilArrival = frequency - trainRemainder;
-
-    // add minutesUntilArrival to now, to find next train's arrival time & convert to standard time format 
-    nextTrainTime = moment().add(minutesUntilArrival, "m").format("hh:mm A");
-
-    // append to our table of trains, inside tbody, with a new row of the train data
-    $("#table-info").append(
-        "<tr><td>" + snapshot.val().name + "</td>" +
-        "<td>" + snapshot.val().destination + "</td>" +
-        "<td>" + frequency + "</td>" +
-        "<td>" + minutesUntilArrival + "</td>" +
-        // "<td>" + nextTrainTime + "  " + "<a><span class='glyphicon glyphicon-remove icon-hidden' aria-hidden='true'></span></a>" + "</td></tr>"
-        "<td>" + timeOfNextTrain+ "  " + "</td></tr>"
-    );
-
-    $("span").hide();
-
-    // Handle the errors
-    // }, function(errorObject) {
-    //     console.log("Errors handled: " + errorObject.code);
-
-    // Hover view of delete button
-    $("tr").hover(
-        function() {
-            $(this).find("span").show();
-        },
-        function() {
-            $(this).find("span").hide();
-        });
-
-    // STARTED BONUS TO REMOVE ITEMS ** not finished **
-    $("#table-info").on("click", "tr span", function() {
-        console.log(this);
-        var trainRef = database.ref();
-        console.log(trainRef);
-    });
-});
-
-// function to call the button event, and store the values that were entered in the input form
-var storeInputs = function(event) {
-    // prevent from from reseting
+  
+  // Create a variable to reference the database
+  var database = firebase.database();
+  
+  // Create an on click function that adds trains to the top table
+  $("#add-train-btn").on("click", function(event) {
     event.preventDefault();
-
-    // get & store input values
-    trainName = inputTrain.val().trim();
-    trainDestination = inputTrainDestination.val().trim();
-    trainTime = moment(inputTrainTime.val().trim(), "HH:mm").subtract(1, "years").format("X");
-    //the following line continues to console Uncaught TypeError: Cannot read property 'trim' of undefined
-    //although the variable is defined
-    trainFrequency = inputTrainFreq.val().trim();
-
-    // add to firebase databse
-    database.ref().push({
-        name: trainName,
-        destination: trainDestination,
-        time: trainTime,
-        frequency: trainFrequency,
-        nextArrival: nextArrival,
-        minutesAway: minutesAway,
-        date_added: firebase.database.ServerValue.TIMESTAMP
-    });
-
-    //  alert that train was added
-    alert("Train added!");
-
-    //  empty form once submitted
-    inputTrain.val("");
-    inputTrainDestination.val("");
-    inputTrainTime.val("");
-    inputTrainFreq.val("");
-};
-
-// Calls storeInputs function if submit button clicked
-$("#btn-add").on("click", function(event) {
-    // form validation - if empty - alert
-    if (inputTrain.val().length === 0 || inputTrainDestination.val().length === 0 || inputTrainTime.val().length === 0 || inputTrainFreq === 0) {
-        alert("Please Complete All Required Fields");
-    } else {
-        // if form is completely filled out, run function
-        storeInputs(event);
-    }
-});
-
-// Calls storeInputs function if enter key is clicked
-$('form').on("keypress", function(event) {
-    if (event.which === 13) {
-        // form validation - if empty - alert
-        if (inputTrain.val().length === 0 || inputTrainDestination.val().length === 0 || inputTrainTime.val().length === 0 || inputTrainFreq === 0) {
-            alert("Please Complete All Required Fields");
-        } else {
-            // iif form is completely filled out, run function
-            storeInputs(event);
-        }
-    }
-});
+  
+    // create variables with the user input from form
+    var trainName = $("#train-name-input").val().trim();
+    var trainDestination = $("#destination-input").val().trim();
+    var firstTrainTime= $("#first-train-input").val().trim();
+    var trainFrequency = $("#frequency-input").val().trim();
+  
+    // create a temporary object for holding the new train data
+    var newTrn = {
+      name: trainName,
+      destination: trainDestination,
+      firstTime: firstTrainTime,
+      frequency: trainFrequency
+    };
+  
+    // upload the new train data to the database
+    database.ref().push(newTrn);
+  
+    // console log the values that were just pushed to the database
+    console.log(newTrn.name);
+    console.log(newTrn.destination);
+    console.log(newTrn.firstTime);
+    console.log(newTrn.frequency);
+  
+    // clear the form values after values have been stored
+    $("#train-name-input").val("");
+    $("#destination-input").val("");
+    $("#first-train-input").val("");
+    $("#frequency-input").val("");
+  });
+  
+  // create a firebase event for adding the data from the new trains and then populating them in the DOM.
+  database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    console.log(childSnapshot.val());
+  
+    // store snapshot changes in variables
+    var trainName = childSnapshot.val().name;
+    var trainDestination = childSnapshot.val().destination;
+    var firstTrainTime= childSnapshot.val().firstTime;
+    var trainFrequency = childSnapshot.val().frequency;
+  
+    // log the values
+    console.log(trainName);
+    console.log(trainDestination);
+    console.log(firstTrainTime);
+    console.log(trainFrequency);
+  
+    // process for calculating the Next Arrival and Minutes Away fields...
+    // make sure the first train time is after the eventual current time
+    var firstTrainTimeConv = moment(firstTrainTime, "hh:mm a").subtract(1, "years");
+    // store variable for current time
+    var currentTime = moment().format("HH:mm a");
+    console.log("Current Time:" + currentTime);
+    // store variable for difference of current time and first train time
+    var trnTimeCurrentTimeDiff = moment().diff(moment(firstTrainTimeConv), "minutes");
+    // store the time left
+    var timeLeft = trnTimeCurrentTimeDiff % trainFrequency;
+    // calculate and store the minutes until next train arrives
+    var minutesAway = trainFrequency - timeLeft;
+    // calculate the next arriving train
+    var nextArrival = moment().add(minutesAway, "minutes").format("hh:mm a");
+  
+    // add the data into the DOM/html
+    $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" + trainFrequency + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+  });
 
 });
