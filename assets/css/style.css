@@ -1,0 +1,57 @@
+#container-header {
+    margin-top: 1%;
+}
+
+#header {
+    text-align: center;
+    background-color: gray;
+    color: white;
+    padding: 2%;
+}
+
+.panel-custom {
+    background-color: gray !important;
+    color: white !important;
+}
+
+table {
+    margin: 0 auto;
+}
+
+th {
+    margin: 1% 1% 0 1%;
+    padding: 3% 3% 0 3%;
+    width: 1%;
+}
+
+hr {
+    margin: 1%;
+}
+
+td {
+    margin: 1% 1% 0 1%;
+    padding: 3% 3% 0 3%;
+    width: 1%;
+}
+
+h1 img {
+    width: 5%;
+    padding-bottom: 1%;
+}
+
+#image {
+    width: 100px;
+    height: 100px;
+}
+
+/* media query width for 1024px and below */
+@media screen and (max-width: 1024px) {
+    body {
+    background-color: black;
+    background: black;
+    } 
+  }
+
+#masthead {
+    position: static;
+}
