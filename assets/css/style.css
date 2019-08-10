@@ -1,42 +1,44 @@
-#container-header {
-    margin-top: 1%;
+body {
+    background-color: #404040;
+    color: white;
 }
 
+.jumbotron {
+    background-color: gray;
+    background: url("../images/tt.JPG") ;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+    margin-top: 10px;
+
+}
 #header {
     text-align: center;
-    background-color: gray;
+    background-color: clear;
     color: white;
-    padding: 2%;
+    padding: 0px;
 }
 
-.panel-custom {
+.panel-title,
+.panel-heading {
     background-color: gray !important;
     color: white !important;
 }
 
-table {
-    margin: 0 auto;
+.panel-primary {
+    border-color: black;
 }
 
-th {
-    margin: 1% 1% 0 1%;
-    padding: 3% 3% 0 3%;
-    width: 1%;
+.panel-primary>.panel-heading {
+    border-color:black;
 }
 
-hr {
-    margin: 1%;
-}
-
-td {
-    margin: 1% 1% 0 1%;
-    padding: 3% 3% 0 3%;
-    width: 1%;
-}
-
-h1 img {
-    width: 5%;
-    padding-bottom: 1%;
+.panel-body {
+    background-color: gray;
+    background: url("../images/tt.JPG") ;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
 }
 
 #image {
