@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Train Scheduler</title>
+    
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.5/firebase-database.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.js" charset="utf-8"></script>
+   
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- Main Header -->
+    <div class="container" id="container-header">
+        <div class="jumbotron" id="header">
+            <!-- change and add your own image and title -->
+            <h1><img src="assets/images/shinkansen.png" id="image"> Train Scheduler <img src="assets/images/shinkansen.png" id="image"></h1>
+            <h3>Massachusetts Bay Transportation Authority</h3>
+        </div>
+    </div>
+
+    <!-- Main Body Container -->
+    <div class="container">
+        <!-- Main Train Schedule Display-->
+        <div class="panel panel-default">
+            <div class="panel-heading panel-custom">
+                Current Train Schedule
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Frequency (min)</th>
+                    <th scrope="col">Minutes Away</th>
+                    <th scope="col">Next Arrival</th>
+                </tr>
+                <tbody id="table-data"></tbody>
+            </table>
+            <hr />
+        </div>
+
+        <!-- Train Panel Addition-->
+        <div class="panel panel-default">
+            <div class="panel-heading panel-custom">
+                Add A Train
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                        <label for="trainName">Train Name:</label>
+                        <input type="text" class="form-control" id="train-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination:</label>
+                        <input type="text" class="form-control" id="train-destination" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstTrain">First Train Time: (military time) </label>
+                        <input type="text" class="form-control" placeholder="HH:MM" id="train-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="frequency">Frequency (minutes)</label>
+                        <input type="text" class="form-control" id="time-frequency">
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" id="btn-add" class="btn btn-primary"><span class="glyphicon glyphicon-pushpin"></span> Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="assets/javascript/app.js"></script>
+</body>
+</html>
